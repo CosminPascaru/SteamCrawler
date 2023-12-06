@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Steam Crawler</title>
+		<link href="/static/bootstrap.css" rel="stylesheet">
+	</head>
+	<body class="bg-body" data-bs-theme="dark">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+			<div class="container-fluid"><a class="navbar-brand" href="/">Steam Crawler</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+				<!--<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">puton</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">alt puton</a></li>
+					</ul>
+				</div>-->
+			</div>
+		</nav>
+        <div class="container-md mt-5" data-bs-theme="dark">
+            <form action="/form" method="POST" class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 bg-body-secondary rounded-1 mb-4" data-bs-theme="dark">
+                    <h1 class="mb-4"> <strong>Tags!</strong> <br> </h1>
+                    <div class="form-check">
+                        {{form.checkbox_singleplayer(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Single Player
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_adventure(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Adventure
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_action(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Action
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_indie(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Indie
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_2d(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                2D
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_pixel(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Pixel Graphics
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_platformer(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Platormer
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_casual(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Casual
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_rpg(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                RPG
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_storyrich(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Story Rich
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_strategy(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Strategy
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_simulation(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Simulation
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_firstperson(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                First Person
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_shooter(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Shooter
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_pvp(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                PVP
+                            </label>
+                    </div>
+                    <div class="form-check">
+                        {{form.checkbox_coop(class="form-check-input")}}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                COOP
+                            </label>
+                    </div>
+                </div>
+                <div class="col-md-1"> </div>
+                <div class="col-md-3 bg-body-secondary rounded-1 mb-4" data-bs-theme="dark">
+                    <h1 class="mb-4"> <strong>Configuration</strong> <br> </h1>
+                    {{form.hidden_tag()}}
+                    <div class="form-group">
+                        <label for="games_number">Game Amount</label>
+                        <small class="text-muted"> (Required, 1 to 100)</small>
+                        {{form.games_number(class='mb-5 mt-2 form-control')}}
+                        {% if form.games_number.error %}
+                            <div class="alert alert-danger" role="alert">
+                                {{form.games_number.errors[0]}}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <br>
+                    <div class="alert alert-info mt-3 mb-5">
+                        <p>
+                            More configuration options in the future :)
+                            <br>
+                        </p>
+                    </div>
+                    <a>
+                        <button class="btn container-fluid mt-3 mb-4 bg-body-tertiary" data-bs-theme="dark" type="submit">
+                              <span class="fs-3">Search</span>
+                        </button>
+                    </a>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <div class="alert alert-info mb-5" role="alert">
+                        <strong>Scraping Disclaimer:</strong> 
+                        The process of fetching data may take a few seconds, particularly when making a large number of requests. Please be patient while we retrieve the latest information. 
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </form>
+        </div>
+		<div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+              <div class="col-md-4 d-flex align-items-center">
+                    <span class="mb-3 mb-md-0 text-muted">2023 Cosmin Pascaru & Oprean Eduard</span>
+              </div>
+              <a class="btn bg-body-secondary" data-bs-target="dark" href="https://github.com/yourusername/your-repo" target="_blank">
+                    <img src="static/GitHub_Logo_White.png" alt="GitHub Logo" width="55" height="24" class="mr-2">
+              </a>
+            </footer>
+        </div>
+		<script src="/static/bootstrap.js"></script>
+	</body>
+</html>

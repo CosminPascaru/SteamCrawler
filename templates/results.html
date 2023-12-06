@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Steam Crawler</title>
+		<link href="static/bootstrap.css" rel="stylesheet">
+	</head>
+	<body class="bg-body" data-bs-theme="dark">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+			<div class="container-fluid"><a class="navbar-brand" href="/">Steam Crawler</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+				<!--<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item"><a class="nav-link active" aria-current="page" href="#">puton</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">alt puton</a></li>
+					</ul>
+				</div>-->
+			</div>
+		</nav>
+        <div class="container-md mt-4" data-bs-theme="dark">
+            {% if results %}
+                <div class="container">
+                    <h2>Search Results <small class="text-muted">(obviously still WIP)</small></h2>
+                    <div class="row">
+                        {% for result in results %}
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Game</h5>
+                                        <p class="card-text">{{ result }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+		<div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <span class="mb-3 mb-md-0 text-muted">2023 Cosmin Pascaru & Oprean Eduard</span>
+                </div>
+                <a class="btn bg-body-secondary" data-bs-target="dark" href="https://github.com/yourusername/your-repo" target="_blank">
+                    <img src="static/GitHub_Logo_White.png" alt="GitHub Logo" width="55" height="24" class="mr-2">
+                </a>
+            </footer>
+        </div>
+		<script src="static/bootstrap.js"></script>
+	</body>
+</html>
