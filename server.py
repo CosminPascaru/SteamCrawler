@@ -13,7 +13,6 @@ csrf = CSRFProtect(app)
 
 class Form(FlaskForm):
     games_number = IntegerField('Number of games', validators=[InputRequired(), NumberRange(min=1, max=100)], default=10)
-
     checkbox_indie = BooleanField("indie")
     checkbox_singleplayer = BooleanField("singleplayer")
     checkbox_adventure = BooleanField("adventure")
