@@ -1,0 +1,11 @@
+[project]
+name = "SteamCrawler"
+version = "0.0.1"
+description = "its kinda working"
+
+dependencies = [
+    "flask",
+    "beautifulsoup4",
+    "bs4",
+    "html5lib"
+]
