@@ -132,25 +132,57 @@
                                 {{form.games_number.errors[0]}}
                             </div>
                         {% endif %}
+                        <div class="form-check">
+                            {{form.checkbox_achievement(class="form-check-input")}}
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Steam Achievements
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            {{form.checkbox_workshop(class="form-check-input")}}
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Steam Workshop
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            {{form.checkbox_cloud(class="form-check-input")}}
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Steam Cloud
+                                </label>
+                        </div>
+                        <div class="form-check">
+                            {{form.checkbox_windows(class="form-check-input")}}
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Windows
+                                </label>
+                        </div>
+                        <div class="form-check mb-5">
+                            {{form.checkbox_linux(class="form-check-input")}}
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Linux
+                                </label>
+                        </div>
                     </div>
                     <br>
-                    <div class="alert alert-info mt-3 mb-5">
-                        <p>
-                            More configuration options in the future :)
-                            <br>
-                        </p>
-                    </div>
                     <a>
-                        <button class="btn container-fluid mt-3 mb-4 bg-body-tertiary" data-bs-theme="dark" type="submit">
+                        <button class="btn container-fluid mt-5 mb-4 bg-body-tertiary" data-bs-theme="dark" type="submit">
                               <span class="fs-3">Search</span>
                         </button>
                     </a>
                 </div>
                 <div class="col-md-1"></div>
-                <div class="col-md-2">
-                    <div class="alert alert-info mb-5" role="alert">
-                        <strong>Scraping Disclaimer:</strong> 
-                        The process of fetching data may take a few seconds, particularly when making a large number of requests. Please be patient while we retrieve the latest information. 
+                <div class="col-md-3">
+                    <div class="alert alert-info mb-4 rounded-1" role="alert">
+                        <li>    
+                            <strong>Data Retrieval Duration:</strong>
+                            <p>The web crawling process involves fetching data from an custom URL created by you. The required time is increased by an increased game amount Patience is appreciated, especially during instances where a significant volume of requests is made, as this may result in a delay of a few seconds or more.</p>
+                        </li>
+
+                        <li>
+                            <strong>Service Availability:</strong>
+                            <p>Our web crawler service may be subject to interruptions, maintenance, or updates. We reserve the right to modify, suspend, or discontinue the service at any time without prior notice.</p>
+                        </li>
+                        </ol> 
                     </div>
                 </div>
                 <div class="col-sm-1"></div>
@@ -161,7 +193,7 @@
               <div class="col-md-4 d-flex align-items-center">
                     <span class="mb-3 mb-md-0 text-muted">2023 Cosmin Pascaru & Oprean Eduard</span>
               </div>
-              <a class="btn bg-body-secondary" data-bs-target="dark" href="https://github.com/yourusername/your-repo" target="_blank">
+              <a class="btn bg-body-secondary" data-bs-target="dark" href="https://github.com/CosminPascaru/SteamCrawler" target="_blank">
                     <img src="static/GitHub_Logo_White.png" alt="GitHub Logo" width="55" height="24" class="mr-2">
               </a>
             </footer>

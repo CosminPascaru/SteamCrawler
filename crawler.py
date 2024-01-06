@@ -4,17 +4,23 @@ from selenium import webdriver
 import csv
 import time
 
-base_url = 'https://store.steampowered.com/search/?tags='
+base_url = 'https://store.steampowered.com/search/?'
 
 class UrlBuilder:
     url:str
     tag_counter:int
+    feature_counter:int
+    os_counter:int
     
     def __init__ (self):
         self.url = base_url
         self.tag_counter = 0
+        self.feature_counter = 0 
+        self.os_counter = 0
         
     def add_tag(self, tag:str):
+        if self.tag_counter == 0:
+            self.url += 'tags='
         if self.tag_counter > 0:
             self.url += '%2C'
             
@@ -53,7 +59,46 @@ class UrlBuilder:
                 self.url += '1775'
             case 'coop' :
                 self.url += '1685'
-            
+    
+    def add_feature(self, feature:str):
+        
+        
+        match feature:
+            case 'achievement':
+                if self.feature_counter == 0:
+                    self.url += '&category2=22'
+                if self.feature_counter > 0:
+                    self.url += '%2C22'
+                self.feature_counter += 1
+            case 'workshop':
+                if self.feature_counter == 0:
+                    self.url += '&category2=30'
+                if self.feature_counter > 0:
+                    self.url += '%2C30'
+                self.feature_counter += 1
+            case 'cloud':
+                if self.feature_counter == 0:
+                    self.url += '&category2=23'
+                if self.feature_counter > 0:
+                    self.url += '%2C23'
+                self.feature_counter += 1
+            case 'windows':
+                if self.os_counter == 0:
+                    self.url += '&os=win'
+                else:
+                    self.url += '%2Cwin'
+                self.os_counter = 1    
+            case 'linux':
+                if self.os_counter == 0:
+                    self.url += '&os=linux'
+                else: 
+                    self.url += '%2Clinux'
+                self.os_counter = 1  
+                
+    def add_features(self, list):
+        for feature in list:
+            self.add_feature(feature)
+    
     def add_tags (self, list):
         for tag in list:
             self.add_tag(tag)
@@ -95,16 +140,48 @@ def parse_tag_list(bool_list):
         tag_list.append('pvp')
     if bool_list[15]:
         tag_list.append('coop')
-
     return tag_list
-    
-def save_html (response, file_path):
-    
-    fd = open(file_path, 'w')
-    fd.write(response.text)
-    fd.close
 
-def get_game_urls (html, max):
+def parse_feature_list(bool_list):
+    feature_list = []
+    if bool_list[0]:
+        feature_list.append('achievement')
+    if bool_list[1]:
+        feature_list.append('workshop')
+    if bool_list[2]:
+        feature_list.append('cloud')
+    if bool_list[3]:
+        feature_list.append('windows')
+    if bool_list[4]:
+        feature_list.append('linux')
+    
+def generate_store_url (tag_list, feature_list):
+    url = UrlBuilder()
+    if tag_list != None:
+        url.add_tags(tag_list)
+    if feature_list != None:
+        url.add_features(feature_list)
+    url.finish_url()
+    return url.url    
+        
+def get_store_html (url, scroll_range):  
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(options=options)
+
+    driver.get(url)
+    
+    for i in range(scroll_range):
+        driver.execute_script("window.scrollBy(0, 1000);")
+        #time.sleep(1)
+    
+    html = driver.page_source
+    
+    driver.quit()
+    
+    return html          
+
+def extract_game_urls (html, max):
     urls = []
     url_count = 0 
 
@@ -122,32 +199,9 @@ def get_game_urls (html, max):
             else:
                 return urls
     return urls 
-        
-def generate_store_html (url, scroll_range):  
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    driver = webdriver.Chrome(options=options)
 
-    driver.get(url)
-    
-    for i in range(scroll_range):
-        driver.execute_script("window.scrollBy(0, 1000);")
-        #time.sleep(1)
-    
-    html = driver.page_source
-    
-    driver.quit()
-    
-    return html          
-
-def generate_store_url (tag_list):
-    url = UrlBuilder()
-    url.add_tags(tag_list)
-    url.finish_url()
-    return url.url
-
-def generate_game_urls(tag_list, url_count):
-    url = generate_store_url(tag_list)
+def get_game_urls(tag_list, feature_list, url_count):
+    url = generate_store_url(tag_list, feature_list)
     
     if url_count < 50:
         hops = 0
@@ -158,21 +212,33 @@ def generate_game_urls(tag_list, url_count):
     else:
         hops = 6
         
-    html = generate_store_html(url, hops)    
+    html = get_store_html(url, hops)    
     
-    game_urls = get_game_urls(html, url_count)
+    game_urls = extract_game_urls(html, url_count)
     
     return game_urls
 
+def extract_game_data(url):
+    html  = requests.get(url)
+    #div class = gameHeaderImageCtn
+    #img class = game_header_image_full src = "--> img url <--"
+
+    soup = BeautifulSoup(html.text, 'html5lib')
+    
+    img_anchor = soup.find('img', class_='game_header_image_full')
+    img_src = img_anchor['src']
+    print(img_src)
+    
+
 def main():
-    # old testing stuff
+    #testing stuff
+    
     tag_list = ['pixel_graphics']
+    feature_list = ['cloud']
+    url = generate_store_url(tag_list, feature_list)
     
-    game_urls = generate_game_urls(tag_list, 200)
+    print(url)
     
-    lmao = 0 
-    for i in game_urls:
-        lmao += 1
-        print(i)
-    print(lmao)
+main()
+    
 
