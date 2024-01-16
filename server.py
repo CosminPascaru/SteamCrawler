@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, BooleanField, IntegerField
 from wtforms.validators import InputRequired, NumberRange
 from flask_wtf.csrf import CSRFProtect
 import secrets
 import crawler
+import threading
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
@@ -36,6 +37,8 @@ class Form(FlaskForm):
     checkbox_linux = BooleanField("linux")
 
     submit = SubmitField('Submit')
+
+game_info_list = []
 
 @app.route('/')
 def index():
@@ -76,13 +79,39 @@ def form():
         parsed_tag_list = crawler.parse_tag_list(tag_list)
         parsed_feature_list = crawler.parse_feature_list(feature_list)
 
-        results = crawler.get_game_urls(parsed_tag_list, parsed_feature_list, games_number)
+        urls = crawler.get_game_urls(parsed_tag_list, parsed_feature_list, games_number)
         
-        for game in results:
-            crawler.extract_game_data(game)
+        def extract_and_append(game_url, game_info_list):
+            game_info_list.append(crawler.extract_game_data(game_url))
+        
+        
+        threads = []
+        for url in urls:
+            thread = threading.Thread(target=extract_and_append, args=(url, game_info_list))
+            threads.append(thread)
+            thread.start()
+        for thread in threads:
+            thread.join()
 
-        return render_template('/results.html', results=results)
+        return render_template('/results.html', results=game_info_list)
 
     return render_template('/form.html', form=form)
+
+@app.route('/get_results_data')
+def get_results_data():
+    data = [
+        {
+            "Name": game_info.name,
+            "Url": game_info.game_url,
+            "Price": game_info.price,
+            "Release Date": game_info.release_date,
+            "Developer": game_info.dev,
+            "All Reviews": game_info.review_all,
+            "Recent Reviews": game_info.review_recent
+        }
+        for game_info in game_info_list
+    ]
+    
+    return jsonify(data)
 
 app.run(host='0.0.0.0', port=5000)

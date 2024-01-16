@@ -1,6 +1,7 @@
 # SteamCrawler
-Proiect TW
+bootstrap.css is modified, thats why it is included in here.
 
-chestii pentru configurare:
-- toate chestiile de la bootstrap vin in /static
 - pip install . 
+- python3 server.py
+
+and is should kinda work

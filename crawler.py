@@ -6,6 +6,16 @@ import time
 
 base_url = 'https://store.steampowered.com/search/?'
 
+class GameInfo:
+    game_url:str
+    img_src:str
+    name:str
+    price:float
+    release_date:str
+    dev:str
+    review_all:str
+    review_recent:str
+
 class UrlBuilder:
     url:str
     tag_counter:int
@@ -220,16 +230,36 @@ def get_game_urls(tag_list, feature_list, url_count):
 
 def extract_game_data(url):
     html  = requests.get(url)
-    #div class = gameHeaderImageCtn
-    #img class = game_header_image_full src = "--> img url <--"
+    game_info = GameInfo()
 
     soup = BeautifulSoup(html.text, 'html5lib')
     
-    img_anchor = soup.find('img', class_='game_header_image_full')
-    img_src = img_anchor['src']
-    print(img_src)
+    img_anchor = soup.find('img', attrs={'class': 'game_header_image_full'})
+    game_info.img_src = img_anchor['src']
     
+    reviews_span = soup.find_all('span', attrs={'class': 'game_review_summary'})
+    reviews = [span.get_text() for span in reviews_span]
+    game_info.review_recent = reviews[0]
+    game_info.review_all = reviews[1]
+    
+    date_div = soup.find('div', class_='date')
+    date_text = date_div.get_text()
+    game_info.release_date = date_text
 
+    app_name_div = soup.find('div', {'id': 'appHubAppName', 'class': 'apphub_AppName'})
+    app_name_text = app_name_div.get_text()
+    game_info.name = app_name_text
+
+    price_div = soup.find('div', class_='game_purchase_price price')
+    game_info.price = price_div.get_text(strip=True)
+
+    developers_div = soup.find('div', {'class': 'summary column', 'id': 'developers_list'})
+    game_info.dev = developers_div.a.get_text()
+
+    game_info.game_url = url
+
+    return game_info
+    
 def main():
     #testing stuff
     
@@ -240,5 +270,4 @@ def main():
     print(url)
     
 main()
-    
 

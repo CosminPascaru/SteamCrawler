@@ -164,15 +164,22 @@
                         </div>
                     </div>
                     <br>
+                    <div class="position-absolute top-0 start-0 w-100 h-100 bg-body" id="loadingOverlay" style="display: none; opacity: 0.7;"></div>
+                    <div class="text-center" id="loadingSpinner" style="display: none; position: absolute; top: 45%; left: 46.6%; transform: translate(-50%, -50%);">
+                        <div class="spinner-border spinner-border-lg" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                     <a>
-                        <button class="btn container-fluid mt-5 mb-4 bg-body-tertiary" data-bs-theme="dark" type="submit">
+                        <button class="btn container-fluid mt-5 mb-4 bg-body-tertiary" data-bs-theme="dark" onclick="submitForm()" type="submit">
                               <span class="fs-3">Search</span>
                         </button>
                     </a>
                 </div>
+
                 <div class="col-md-1"></div>
                 <div class="col-md-3">
-                    <div class="alert alert-info mb-4 rounded-1" role="alert">
+                    <div class="alert alert-info mb-4 ml-1 rounded-1" role="alert">
                         <li>    
                             <strong>Data Retrieval Duration:</strong>
                             <p>The web crawling process involves fetching data from an custom URL created by you. The required time is increased by an increased game amount Patience is appreciated, especially during instances where a significant volume of requests is made, as this may result in a delay of a few seconds or more.</p>
@@ -199,5 +206,13 @@
             </footer>
         </div>
 		<script src="/static/bootstrap.js"></script>
+        <script>
+            function submitForm() {
+                // Show loading spinner
+                document.getElementById("loadingOverlay").style.display = "block";
+                document.getElementById("loadingSpinner").style.display = "flex";
+                
+            }
+        </script>
 	</body>
 </html>
